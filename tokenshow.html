@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> Got Code </title>
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+</head>
+<body>
+	<div id="userDetails">
+		Got Code, Now getAccessToken	
+	</div>
+</body>
+<script type="text/javascript">
+
+	// create your app on https://developers.facebook.com/apps/
+	// get clientId & clientSecret Key from setting page of https://developers.facebook.com/apps/
+
+	var appID = "appID"; 		// clientId
+	var clientSecret = "clientSecret";  //clientSecret 
+	var url;
+	var getUserDetailsURL;
+
+
+	// get parameter by name from url
+	function getParameterByName(name, url) {
+	    if (!url) url = window.location.href;
+	    name = name.replace(/[\[\]]/g, "\\$&");
+	    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+	        results = regex.exec(url);
+	    if (!results) return null;
+	    if (!results[2]) return '';
+	    return decodeURIComponent(results[2].replace(/\+/g, " "));
+	}
+
+	// get user Details
+	function getUserDetails(getUserDetailsURL) {
+		$.ajax({url: getUserDetailsURL, 
+	    	success: function(result){
+	    		console.log("result",result)
+	    		$("#userDetails").html(JSON.stringify(result));
+		    },
+			complete: function(xhr, textStatus) {
+			    console.log(xhr.status);
+			    if(xhr.status==200){
+			    	console("success");
+			    }else if(xhr.status==400){
+			    	alert("fail");
+			    }
+			}
+		});
+	}
+
+
+	// get Access Token
+	function getAccessToken(url) {		
+		$.ajax({url: url, 
+	    	success: function(result){
+	    	console.log("result",result)
+	    	console.log("access_token",result.access_token);
+	    	getUserDetailsURL = "https://graph.facebook.com/me?fields=name&access_token="+result.access_token;  
+	    	getUserDetails(getUserDetailsURL);
+		    },
+			complete: function(xhr, textStatus) {
+			    console.log(xhr.status);
+			    if(xhr.status==200){
+			    	console("success");
+			    }else if(xhr.status==400){
+			    	alert("fail");
+			    }
+			}
+		});
+	}
+
+	// get Code from URL
+	$(function () {
+		var url = window.location.search;
+		code = getParameterByName("code"); 
+	
+
+		var path = 'https://graph.facebook.com/oauth/access_token?';
+	    var queryParams = ['client_id=' + appID,
+	    'redirect_uri=http://localhost:8080/tokenshow.html',
+	    'client_secret='+clientSecret,
+	    'code='+code];
+	    var query = queryParams.join('&');
+	    var url = path + query;
+
+		getAccessToken(url);  
+
+	})
+</script>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>OAuth</title>
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="http://code.jquery.com/jquery-migrate-1.1.0.js"></script>
+	<!--Register Google Api-->
+	<script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>  
+	<script type="text/javascript" src="http://yui.yahooapis.com/3.3.0/build/yui/yui-min.js"></script>
+	<style type="text/css">
+		#fbLogin{border: 1px solid #dadada;padding: 20px;cursor: pointer;}
+	</style>
+</head>
+<body>
+	<div>
+		<div id="fbLogin">
+			Click Here for OAuth Facebook
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	var appID = "381436782295628";
+
+	function fbLogin() {
+	    var path = 'https://www.facebook.com/dialog/oauth?';
+	    var queryParams = ['client_id=' + appID,
+	    'redirect_uri=http://localhost:8080/tokenshow.html',
+	    'response_type=code'];
+	    var query = queryParams.join('&');
+	    var url = path + query;
+	    console.log("url",url)
+	    window.location.replace(url);	    
+	}  
+
+	$(function () {
+
+	    $('#fbLogin').click(function () {
+	        fbLogin();
+	    });
+	})
+
+</script>
+</html>
