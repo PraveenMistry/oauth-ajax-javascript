@@ -7,10 +7,11 @@
 	- Validate your redirect_uri using settings in [facebook dev](https://developers.facebook.com/apps/)
 
 ##### Technology
-	```JS
-	Ajax
-	Javascript
-	```
+
+```JS
+Ajax
+Javascript
+```
 
 ***Notes: Please replace your clientId, clientSecret and redirect_uri in code***
 
